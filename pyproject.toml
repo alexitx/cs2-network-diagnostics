@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "network-diagnostics"
+dynamic = ["version"]
+requires-python = ">=3.12"
+dependencies = [
+  "cloudflarepycli~=2.0.2",
+  "darkdetect~=0.7.1",
+  "filelock~=3.16.1",
+  "icmplib~=3.0.4",
+  "netifaces-plus~=0.12.2",
+  "platformdirs~=4.3.6",
+  "psutil~=6.0.0",
+  "PyQtDarkTheme-fork~=2.3.2",
+  "PySide6~=6.7.3",
+  "pywin32>=306"
+]
+authors = [
+  {name = "alexitx"}
+]
+description = "Network connection diagnostics utility"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+[tool.setuptools]
+packages = [
+  "network_diagnostics",
+  "network_diagnostics.gui",
+  "network_diagnostics.gui.generated"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "network_diagnostics.version.__version__"}

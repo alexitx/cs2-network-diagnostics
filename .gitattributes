@@ -1,0 +1,23 @@
+# Python
+*.pxd text diff=python eol=lf
+*.py text diff=python eol=lf
+*.py3 text diff=python eol=lf
+*.pyi text diff=python eol=lf
+*.pyw text diff=python eol=lf
+*.pyx text diff=python eol=lf
+*.pyz text diff=python eol=lf
+*.ipynb text eol=lf
+
+# Qt
+*.qrc text eol=lf
+*.qss text eol=lf
+*.ui text eol=lf
+
+# Scripts
+*.bash text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.fish text eol=lf
+*.ps1 text eol=crlf
+*.sh text eol=lf
+*.zsh text eol=lf
