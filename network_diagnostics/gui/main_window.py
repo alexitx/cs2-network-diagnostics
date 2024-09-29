@@ -278,10 +278,6 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, 'Error', f'Failed to get diagnostics history: {e}')
             return
 
-        if not diagnostics_history:
-            QMessageBox.information(self, 'Info', 'No diagnostics found')
-            return
-
         try:
             self._history_window.update_history(diagnostics_history)
         except Exception as e:
