@@ -86,6 +86,7 @@ class Diagnostics:
         self._icmp_cs2_test_server_changed = False
         self._icmp_cs2_test_thread = None
 
+        self._icmp_late_time = 0.5
         self._icmp_max_seq_loss = 1
         self._icmp_interval = 1.0
         self._icmp_timeout = 2.0
@@ -584,7 +585,12 @@ class Diagnostics:
             log_icmp.info(f'Gateway RTT data:\n{self._icmp_gateway_test.rtt_data}')
 
     def _on_icmp_gateway_test_update(self, rtt_data, lost):
-        log_icmp.info(f"Gateway ({rtt_data.host}): {rtt_data.last if not lost else 'Timeout'}")
+        if lost:
+            log_icmp.info(f'Gateway ({rtt_data.host}): Timeout')
+        elif rtt_data.last >= self._icmp_late_time:
+            log_icmp.info(f'Gateway ({rtt_data.host}): {rtt_data.last} (late)')
+        else:
+            log_icmp.info(f'Gateway ({rtt_data.host}): {rtt_data.last}')
 
         if self._cb_on_icmp_gateway_test_update is not None:
             self._cb_on_icmp_gateway_test_update(rtt_data)
@@ -638,14 +644,17 @@ class Diagnostics:
             log_icmp.info(f'External RTT data:\n{self._icmp_external_test.rtt_data}')
 
     def _on_icmp_external_test_update(self, rtt_data, lost):
-        log_icmp.info(f"External ({rtt_data.host}): {rtt_data.last if not lost else 'Timeout'}")
-
         if self._cb_on_icmp_external_test_update is not None:
             self._cb_on_icmp_external_test_update(rtt_data)
 
         if lost:
+            log_icmp.info(f'External ({rtt_data.host}): Timeout')
             self._icmp_external_test_seq_loss += 1
         else:
+            if rtt_data.last >= self._icmp_late_time:
+                log_icmp.info(f'External ({rtt_data.host}): {rtt_data.last:.3f} (late)')
+            else:
+                log_icmp.info(f'External ({rtt_data.host}): {rtt_data.last:.3f}')
             self._internet_connectivity = True
             self._icmp_external_test_seq_loss = 0
 
@@ -700,7 +709,12 @@ class Diagnostics:
             log_icmp.info(f'CS2 RTT data:\n{self._icmp_cs2_test.rtt_data}')
 
     def _on_icmp_cs2_test_update(self, rtt_data, lost):
-        log_icmp.info(f"CS2 ({rtt_data.host}): {rtt_data.last if not lost else 'Timeout'}")
+        if lost:
+            log_icmp.info(f'CS2 ({rtt_data.host}): Timeout')
+        elif rtt_data.last >= self._icmp_late_time:
+            log_icmp.info(f'CS2 ({rtt_data.host}): {rtt_data.last} (late)')
+        else:
+            log_icmp.info(f'CS2 ({rtt_data.host}): {rtt_data.last}')
 
         if self._cb_on_icmp_cs2_test_update is not None:
             self._cb_on_icmp_cs2_test_update(rtt_data)
