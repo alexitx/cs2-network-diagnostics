@@ -128,6 +128,8 @@ class MainWindow(QMainWindow):
         self._external_server = server
         self._diagnostics.set_icmp_external_test_server(self._external_server)
 
+        log.info(f'External server set to: {server}')
+
     def export_diagnostics(self, name, path):
         if self._diagnostics.running:
             QMessageBox.critical(self, 'Error', 'Cannot export diagnostics while diagnostics are currently running.')
