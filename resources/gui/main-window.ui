@@ -321,8 +321,8 @@
          <property name="sizeAdjustPolicy">
           <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
          </property>
-         <property name="plainText">
-          <string notr="true"/>
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::LineWrapMode::NoWrap</enum>
          </property>
         </widget>
        </item>
